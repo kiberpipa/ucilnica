@@ -1,3 +1,8 @@
+.. WARNING::
+
+    DO NOT USE, IT IS NOT TESTED.
+
+
 ========================
 Classroom deploy fabfile
 ========================
