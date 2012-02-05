@@ -12,6 +12,8 @@ Install::
 
     $ virtualenv --no-site-packages classrootils
     $ cd classrootils
+    $ bin/activate
+    $ pip install fabric
 
 How to use
 ==========
