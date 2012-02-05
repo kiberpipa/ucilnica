@@ -1,6 +1,8 @@
 from os.path import basename
 
-from fabric.api import env, run, cd, put, sudo
+from fabric.api import env, run, cd, put, sudo, task
+
+env.hosts = ["192.168.42.4", "192.168.42.50"]
 
 class NotTested(Exception):
     """docstring for NotTested"""
@@ -9,6 +11,7 @@ class NotTested(Exception):
 
 raise NotTested
 
+@task
 def list_dir(dir_=None):
     """docstring for list_dir"""
     dir_ = dir_ or env.cwd
@@ -30,22 +33,26 @@ def put_and_backup(local_path, remote_path, use_sudo=False):
     put(local_path, remote_path, use_sudo)
 
 
+@task
 def upgrade():
     """docstring for upgrade"""
     sudo("apt-get update")
     sudo("apt-get upgrade -y")
 
+@task
 def install_packages(list_):
     """docstring for install_packages"""
     string_ = " ".join(list_)
     sudo("apt-get install -y %s " % string_)
 
+@task
 def install_ldap_pam():
     """docstring for install_ldap_pam"""
 
     for file in ["common-account", "common-auth", "common-password"]:
         put_and_backup("etc/pam.d/%s" % file, "/etc/pam.d/", True)
 
+@task
 def install_ldap():
     """docstring for install_ldap"""
 
@@ -59,6 +66,7 @@ def install_ldap():
     sudo("ln -s /etc/libnss-ldap.conf /etc/ldap/libnss-ldap.conf")
 
 
+@task
 def install_automounter():
     """docstring for install_nfs_magic"""
 
@@ -71,6 +79,7 @@ def install_automounter():
 
     sudo("service autofs restart")
 
+@task
 def install_classroom():
     """docstring for install_classroom"""
     upgrade()
